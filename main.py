@@ -1,24 +1,51 @@
 import tkinter as tk
-from tkinter import ttk
+# from tkinter import ttk
+import ttkbootstrap as ttk
 
-window=tk.Tk()
-window.title("Demo")
-HEIGHT=200
+def convert():
+    try:
+        miles=float(number.get())
+        km=miles*1.609
+        result.set(f"{km:.2f} km")
+    except ValueError:
+        result.set("Invalid input")
+def only_numbers(P):
+    if P=='' or P.replace('.','',1).isdigit():
+        return True
+    return False
+
+window=ttk.Window(themename='superhero')
+window.resizable(True,True)
+window.title("Miles to Kilometers Converter")
+
+style = ttk.Style()
+style.configure("Hover.TButton", font=("Arial", 14, "bold"))
+style.map("Hover.TButton",
+          foreground=[("active", "white")],
+          background=[("active", "darkorange")])
+
+
 WIDTH=500
+HEIGHT=250
 window.geometry(f"{WIDTH}x{HEIGHT}")
-title_label=tk.Label(window,text="Miles to Kilometers Converter",font="Arial 20 italic bold underline",fg='black',padx=10,pady=10,borderwidth=5,relief=tk.RIDGE,cursor='plus')
+title_label=ttk.Label(window,text="Miles to Kilometers Converter",font="Arial 20 bold italic",bootstyle='primary')
 title_label.pack()
 
 # input frame
-input_frame=tk.Frame(window)
-entry=tk.Entry(input_frame)
-button=tk.Button(input_frame,text="Convert")
+input_frame=ttk.Frame(window)
+number=tk.StringVar()
+vcmd=(window.register(only_numbers),"%P")
+entry=ttk.Entry(input_frame,textvariable=number,validate="key",validatecommand=vcmd,bootstyle='success')
+button=ttk.Button(input_frame,text="Convert",command=convert,style='Hover.TButton')
 entry.pack(side='left',padx=10)
 button.pack(side='left')
 input_frame.pack(pady=20)
 
-# output frame
-output_frame=tk.Frame(window)
-output_label=tk.Label()
+#output frame
+output_frame=ttk.Frame(window)
+result=tk.StringVar()
+output_label=ttk.Label(output_frame,text="Output",font="Arial 20 italic",textvariable=result,bootstyle='success')
+output_label.pack(pady=20)
+output_frame.pack()
 
 window.mainloop()

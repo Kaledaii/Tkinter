@@ -98,7 +98,10 @@ output_frame.pack(fill='both',expand=True)
 # history frame
 history_frame=ttk.Labelframe(window,text="Conversion History",bootstyle='secondary',padding=10)
 history_list=tk.Listbox(history_frame,height=6)
-history_list.pack(fill='both',expand=True)
+history_scrollbar=ttk.Scrollbar(history_frame,orient='vertical',command=history_list.yview,bootstyle='secondary')
+history_list.config(yscrollcommand=history_scrollbar.set)
+history_list.pack(side='left',fill='both',expand=True)
+history_scrollbar.pack(side='right',fill='y')
 history_frame.pack(fill='both',expand=True,padx=20,pady=10)
 
 window.bind('<Return>', lambda event: convert())  
